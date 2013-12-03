@@ -13,6 +13,8 @@ local menubar = require("menubar")
 
 -- To add widgets
 vicious = require("vicious")
+
+
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -122,8 +124,16 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 -- {{{ Wibox
 -- Create a textclock widget
 mytextclock = awful.widget.textclock()
-netwidget = wibox.widget.textbox()
-vicious.register(netwidget, vicious.widgets.net, '<span color="#CC9393">${eth0 down_kb}</span> <span color="#7F9F7F">${eth0 up_kb}</span>', 3)
+local blingbling = require("blingbling")
+--Volume Widget from bling-bling
+volume_master = blingbling.volume({height = 18, width = 40, bar =true, show_text = true, label ="$percent%"})
+volume_master:update_master()
+volume_master:set_master_control()
+
+--Calendar from BlingBling
+
+calendar = blingbling.calendar()
+    calendar:set_link_to_external_calendar(true)
 -- Create a wibox for each screen and add it
 mywibox = {}
 mypromptbox = {}
@@ -201,8 +211,9 @@ for s = 1, screen.count() do
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
     if s == 1 then right_layout:add(wibox.widget.systray()) end
-    right_layout:add(mytextclock)
-
+    --right_layout:add(mytextclock)
+    right_layout:add(calendar)
+    right_layout:add(volume_master)
     right_layout:add(mylayoutbox[s])
 
     -- Now bring it all together (with the tasklist in the middle)
