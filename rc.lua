@@ -131,9 +131,27 @@ volume_master:update_master()
 volume_master:set_master_control()
 
 --Calendar from BlingBling
-
 calendar = blingbling.calendar()
     calendar:set_link_to_external_calendar(true)
+
+--Battery-level - assault
+local assault = require("assault")
+myassault = assault({
+   battery = "BAT0", -- battery ID to get data from
+   width = 36, -- width of battery
+   height = 15, -- height of battery
+   bolt_width = 19, -- width of charging bolt
+   bolt_height = 11, -- height of charging bolt
+   stroke_width = 2, -- width of battery border
+   peg_top = (calculated), -- distance from the top of the battery to the start of the peg
+   peg_height = 3, -- height of the peg
+   peg_width = 2, -- width of the peg
+   font = beautiful.font, -- font to use
+   critical_level = 0.10, -- battery percentage to mark as critical (between 0 and 1, default is 10%)
+   normal_color = beautiful.fg_normal, -- color to draw the battery when it's discharging
+   critical_color = "#ff0000", -- color to draw the battery when it's at critical level
+   charging_color = "#00ff00" -- color to draw the battery when it's charging
+})
 -- Create a wibox for each screen and add it
 mywibox = {}
 mypromptbox = {}
@@ -212,10 +230,10 @@ for s = 1, screen.count() do
     local right_layout = wibox.layout.fixed.horizontal()
     if s == 1 then right_layout:add(wibox.widget.systray()) end
     --right_layout:add(mytextclock)
+    right_layout:add(myassault)
     right_layout:add(calendar)
     right_layout:add(volume_master)
     right_layout:add(mylayoutbox[s])
-
     -- Now bring it all together (with the tasklist in the middle)
     local layout = wibox.layout.align.horizontal()
     layout:set_left(left_layout)
