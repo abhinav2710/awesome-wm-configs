@@ -148,11 +148,11 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 -- {{{ Wibox
 -- Create a textclock widget
 mytextclock = awful.widget.textclock()
-local blingbling = require("blingbling")
+--local blingbling = require("blingbling")
 --Volume Widget from bling-bling
-volume_master = blingbling.volume({height = 18, width = 40, bar =true, show_text = true, label ="$percent%"})
-volume_master:update_master()
-volume_master:set_master_control()
+--volume_master = blingbling.volume({height = 18, width = 40, bar =true, show_text = true, label ="$percent%"})
+--volume_master:update_master()
+--volume_master:set_master_control()
 
 --Calendar from BlingBling
 --calendar = blingbling.calendar()
@@ -201,13 +201,13 @@ vicious.register( batwidget, vicious.widgets.bat, '<span background="#92B0A0" fo
 
 
 --{{---| File Size widget |-----
---fswidget = wibox.widget.textbox()
+fswidget = wibox.widget.textbox()
 
---vicious.register(fswidget, vicious.widgets.fs,
---'<span background="#D0785D" font="Inconsolata 11"> <span font="Inconsolata 11" color="#EEEEEE">${/home used_p}/${/home avail_p} GB </span></span>', 800)
+vicious.register(fswidget, vicious.widgets.fs,
+'<span background="#D0785D" font="Inconsolata 11"> <span font="Inconsolata 11" color="#EEEEEE">${/home used_p}/${/home avail_p} GB </span></span>', 800)
 
---fsicon = wibox.widget.imagebox()
---fsicon:set_image(beautiful.fsicon)
+fsicon = wibox.widget.imagebox()
+fsicon:set_image(beautiful.fsicon)
 
 ----{{--| Volume / volume icon |----------
 volume = wibox.widget.textbox()
@@ -358,8 +358,7 @@ for s = 1, screen.count() do
     right_layout:add(cpuwidget)
     right_layout:add(arr6)
     right_layout:add(volumeicon)
-    --right_layout:add(volume)
-    right_layout:add(volume_master)
+    right_layout:add(volume)
     right_layout:add(arr5)
     --right_layout:add(fsicon)
     --right_layout:add(fswidget)
@@ -401,9 +400,9 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
 -- {{ Volume Control }} --
 
-    awful.key({     }, "XF86AudioRaiseVolume", function() awful.util.spawn("amixer set Master 5%+", false) end),
-    awful.key({     }, "XF86AudioLowerVolume", function() awful.util.spawn("amixer set Master 5%-", false) end),
-    awful.key({     }, "XF86AudioMute", function() awful.util.spawn("amixer set Master toggle", false) end),
+awful.key({     }, "XF86AudioRaiseVolume", function() awful.util.spawn("amixer set Master 5%+", false) end),
+awful.key({     }, "XF86AudioLowerVolume", function() awful.util.spawn("amixer set Master 5%-", false) end),
+awful.key({     }, "XF86AudioMute", function() awful.util.spawn("amixer set Master toggle", false) end),
 
     awful.key({ modkey,           }, "j",
         function ()
