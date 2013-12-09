@@ -11,6 +11,9 @@ local beautiful = require("beautiful")
 local naughty = require("naughty")
 local menubar = require("menubar")
 
+
+local scratchdrop = require("scratchdrop")
+
 -- To add widgets
 vicious = require("vicious")
 
@@ -47,7 +50,7 @@ config_dir = ("/home/abhinav/.config/awesome/")
 themes_dir = (config_dir .. "/powerarrowf")
 beautiful.init(themes_dir .. "/theme.lua")
 -- This is used later as the default terminal and editor to run.
-terminal = "gnome-terminal"
+terminal = "guake"
 editor = os.getenv("EDITOR") or "emacs"
 editor_cmd = terminal .. " -e " .. editor
 browser = "firefox"
@@ -347,7 +350,7 @@ for s = 1, screen.count() do
     --right_layout:add(volume_master)
     --right_layout:add(mylayoutbox[s])
 
---From powerArrow
+    --From powerArrow
     --right_layout:add(arr9)
     --right_layout:add(mailicon)
     right_layout:add(arr8)
@@ -398,6 +401,9 @@ root.buttons(awful.util.table.join(
 globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
     awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
+    awful.key({ modkey,           }, "Up", function ()
+                 scratchdrop("urxvt-tabbed", "top") end),
+     -- Dropdown Terminal
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
 -- {{ Volume Control }} --
 
@@ -459,7 +465,7 @@ globalkeys = awful.util.table.join(
               end),
     -- Menubar
     awful.key({ modkey }, "p", function() menubar.show() end)
-)
+   )
 
 clientkeys = awful.util.table.join(
     awful.key({ modkey,           }, "f",      function (c) c.fullscreen = not c.fullscreen  end),
@@ -527,6 +533,7 @@ clientbuttons = awful.util.table.join(
     awful.button({ modkey }, 1, awful.mouse.client.move),
     awful.button({ modkey }, 3, awful.mouse.client.resize))
 
+
 -- Set keys
 root.keys(globalkeys)
 -- }}}
@@ -547,8 +554,8 @@ awful.rules.rules = {
     { rule = { class = "gimp" },
       properties = { floating = true } },
     -- Set Firefox to always map on tags number 2 of screen 1.
-    -- { rule = { class = "Firefox" },
-    --   properties = { tag = tags[1][2] } },
+     --{ rule = { class = "Firefox" },
+     --  properties = { tag = tags[1][2] } },
 }
 -- }}}
 
